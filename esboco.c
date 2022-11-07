@@ -7,23 +7,42 @@
 struct node{
     char nome[100];
     char princ_ativo[100];
+    char tipo[100];
     char ref[100];
     char lab[50];
-    int codigo;
+    char codigo[10];
     struct node *next;
 };
 
 void insertNode(struct node **head);
+void insertFromText(struct node **head, char nome[], char princ[], char tipo[], char ref[], char lab[], char cod[]);
 void printando(struct node *head);
 void removeNode(struct node **head, char nome[], char lab[]);
 void buscaElemento(struct node **head, char nome[]);
 void printSemelhantes(struct node *head, char nome[]);
 
 int main(){
+    FILE *bdd;
     int opt;
     char remedio[100];
+    char nome[100];
+    char princ_ativo[100];
+    char tipo[100];
+    char ref[100];
+    char lab[50];
+    char codigo[10];
 
     struct node *head = NULL;
+
+    bdd = fopen("bdd.txt", "r");
+
+    for(int i=0; i<9; i++){
+
+        fscanf(bdd, " %s %s %s %s %s %s", nome, princ_ativo, tipo, ref, lab, codigo);
+        insertFromText(&head, nome, princ_ativo, tipo,ref, lab, codigo);
+    }
+
+    fclose(bdd);
 
     while(1){ //menu interativo
         printf("\nQue acao voce deseja fazer:\n"
@@ -56,7 +75,45 @@ int main(){
     return 0;
 }
 
+void insertFromText(struct node **head, char nome[], char princ[], char tipo[], char ref[], char lab[], char cod[]){
 
+    struct node *novo = (struct node*)malloc(sizeof(struct node));
+    struct node *aux;
+
+    //caso espaço criado, preenche dados do node
+    if (novo!= NULL){
+        strcpy(novo->nome, nome);
+        strcpy(novo->princ_ativo, princ);
+        strcpy(novo->tipo, tipo);
+        strcpy(novo->ref, ref);
+        strcpy(novo->lab, lab);
+        strcpy(novo->codigo, cod);
+
+    }
+    if((*head)==NULL){  //ta vazia
+        (*head)=novo;
+        (*head)->next = NULL;
+
+    }else if(strcmp(novo->nome,(*head)->nome)<0){ //antes do head
+        novo->next = *head;
+        *head= novo;
+    }else if(strcmp(novo->nome,(*head)->nome)==0){ //semelhante ao head
+        novo->next = (*head)->next;
+        (*head)->next = novo;
+
+    }else{
+        aux = *head;
+
+        while(1){ //navegando enquanto lista nao acaba ou fora de posiçao (alfabética)
+            if(aux->next == NULL ||strcmp(novo->nome,aux->next->nome)<=0){
+                novo->next = aux->next;
+                aux->next = novo;
+                break;
+            }
+            aux=aux->next;
+        }
+    }
+}
 
 void insertNode(struct node **head){
     struct node *novo = (struct node*)malloc(sizeof(struct node));
@@ -68,12 +125,14 @@ void insertNode(struct node **head){
         scanf(" %[^\n]", &novo->nome);
         printf("Principio ativo: ");
         scanf(" %[^\n]", &novo->princ_ativo);
+        printf("Tipo: ");
+        scanf(" %[^\n]", &novo->tipo);
         printf("Referencia: ");
         scanf(" %[^\n]", &novo->ref);
         printf("Laboratorio: ");
         scanf(" %[^\n]", &novo->lab);
         printf("Codigo de barras: ");
-        scanf(" %d", &novo->codigo);
+        scanf(" %[^\n]", &novo->codigo);
 
     }
     if((*head)==NULL){  //ta vazia
@@ -124,9 +183,11 @@ void printSemelhantes(struct node *head, char nome[]){ //print de remedios semel
         if (strcmp(head->princ_ativo, nome) == 0){ //se de mesmo principio ativo, é printado
 
             printf("Nome: %s\n"
-            "Laboratório: %s\n"
-            "Código: %d\n\n"
+            "Tipo: %s\n"
+            "Laboratorio: %s\n"
+            "Codigo: %s\n\n"
             ,head->nome
+            ,head->tipo
             ,head->lab
             ,head->codigo
             );
