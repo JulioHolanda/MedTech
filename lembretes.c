@@ -31,17 +31,17 @@ int main(void) {
     if (horaprox>24){
       horaprox=horaprox-24;
     }
-    
+
     ptr -> hora = hr;
     ptr -> minuto = min;
     ptr -> repeticao = repet;
     ptr -> hora_prox = horaprox;
-  
-    printf("\nO horário mais próximo de tomar %s é às: %d : %d\n", medicamento, tempo.hora, tempo.minuto);
+
+    printf("\nO horário mais próximo de tomar %s é às: %d : %d\n", remedio, tempo.hora, tempo.minuto);
     printf("\nO proxímo horário será às %d:%d\n", tempo.hora_prox, tempo.minuto);
- 
+
   }
-  
+
   return 0;
 
 }

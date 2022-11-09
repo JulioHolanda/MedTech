@@ -18,19 +18,14 @@ void insertNode(struct node **head);
 void insertFromText(struct node **head, char nome[], char princ[], char tipo[], char ref[], char lab[], char cod[]);
 void printando(struct node *head);
 void removeNode(struct node **head, char nome[], char lab[]);
-void buscaElemento(struct node **head, char nome[]);
-void printSemelhantes(struct node *head, char nome[]);
+void buscaElemento(struct node **head, char nome[], int filtro);
+void printSemelhantes(struct node *head, char nome[], int filtro);
 
 int main(){
     FILE *bdd;
-    int opt;
-    char remedio[100];
-    char nome[100];
-    char princ_ativo[100];
-    char tipo[100];
-    char ref[100];
-    char lab[50];
-    char codigo[10];
+    int opt, filtro;
+    char remedio[100],nome[100],princ_ativo[100],tipo[100];
+    char ref[100],lab[50],codigo[10];
 
     struct node *head = NULL;
 
@@ -45,12 +40,14 @@ int main(){
     fclose(bdd);
 
     while(1){ //menu interativo
-        printf("\nQue acao voce deseja fazer:\n"
-        "1: adicionar remedio\n"
-        "2: consultar por genpericos e similares\n"
-        "0: sair:\n");
+        printf(" --- Que acao voce deseja fazer: ---\n"
+               "    1: adicionar remedio\n"
+               "    2: consultar por medicamentos\n"
+               "    3: consultar por medicamentos COM FILTRO\n"
+               "    0: sair:\n");
 
         scanf(" %d",  &opt);
+        printf("\n");
 
         if ( opt == 1){ //adicionar remédio
 
@@ -60,7 +57,23 @@ int main(){
 
             printf("Por qual medicamento deseja porcurar?\n");
             scanf(" %[^\n]", &remedio);
-            buscaElemento(&head, remedio);
+            printf("\n");
+            buscaElemento(&head, remedio, 0);
+
+        }else if (opt == 3){  //consulta de remédios
+            do{
+                printf("Escolha o tipo de filtro:\n"
+                       "1: referencia\n"
+                       "2: generico\n"
+                       "3: similar\n");
+                scanf(" %d", &filtro);
+            }while(0 > filtro > 4);
+
+            printf("Por qual medicamento deseja porcurar?\n");
+            scanf(" %[^\n]", &remedio);
+            printf("\n");
+            buscaElemento(&head, remedio, filtro);
+
 
         }else if (opt ==0){   // sair do rograma
 
@@ -160,7 +173,7 @@ void insertNode(struct node **head){
     }
 }
 
-void buscaElemento(struct node **head, char nome[]){
+void buscaElemento(struct node **head, char nome[], int filtro){
     struct node *aux = *head;
     char igual[100];
 
@@ -168,7 +181,7 @@ void buscaElemento(struct node **head, char nome[]){
         while (aux != NULL) {
             if (strcmp(aux->nome, nome) == 0){  //se remedio encontrado na lista
                 strcpy(igual, aux->princ_ativo);
-                printSemelhantes(*head, igual);  //imprime remedios de mesmo princp ativo
+                printSemelhantes(*head, igual, filtro);  //imprime remedios de mesmo princp ativo
                 break;
             }
         aux = aux->next;
@@ -177,24 +190,43 @@ void buscaElemento(struct node **head, char nome[]){
   return NULL;
 }
 
-void printSemelhantes(struct node *head, char nome[]){ //print de remedios semelhantes
+void printSemelhantes(struct node *head, char nome[], int filtro){ //print de remedios semelhantes
+    char *opcoesFiltro[] = {" ","referencia","generico","similar"};
 
-    while (head != NULL){
-        if (strcmp(head->princ_ativo, nome) == 0){ //se de mesmo principio ativo, é printado
+    if(filtro == 0 ){
+        while (head != NULL){
+            if (strcmp(head->princ_ativo, nome) == 0){ //se de mesmo principio ativo, é printado
 
-            printf("Nome: %s\n"
-            "Tipo: %s\n"
-            "Laboratorio: %s\n"
-            "Codigo: %s\n\n"
-            ,head->nome
-            ,head->tipo
-            ,head->lab
-            ,head->codigo
-            );
+                printf("Nome: %s\n"
+                "Tipo: %s\n"
+                "Laboratorio: %s\n"
+                "Codigo: %s\n\n"
+                ,head->nome
+                ,head->tipo
+                ,head->lab
+                ,head->codigo
+                );
 
+            }
+            head = head->next;
         }
-        head = head->next;
-    }
+    }else{
+        while (head != NULL){
+            if (strcmp(head->princ_ativo, nome) == 0 && strcmp(head->tipo, opcoesFiltro[filtro]) == 0 ){ //se de mesmo principio ativo E dentro do filtro, é printado
+
+                printf("Nome: %s\n"
+                "Tipo: %s\n"
+                "Laboratorio: %s\n"
+                "Codigo: %s\n\n"
+                ,head->nome
+                ,head->tipo
+                ,head->lab
+                ,head->codigo
+                );
+
+            }
+            head = head->next;
+        }}
 }
 
 
