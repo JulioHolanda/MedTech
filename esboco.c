@@ -31,7 +31,7 @@ int main(){
 
     bdd = fopen("bdd.txt", "r");
 
-    for(int i=0; i<9; i++){
+    for(int i=0; i<20; i++){
 
         fscanf(bdd, " %s %s %s %s %s %s", nome, princ_ativo, tipo, ref, lab, codigo);
         insertFromText(&head, nome, princ_ativo, tipo,ref, lab, codigo);
