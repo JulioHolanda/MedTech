@@ -37,9 +37,9 @@ int main(){
 
         fscanf(bdd, " %s %s %s %s %s %s", nome, princ_ativo, tipo, ref, lab, codigo);
 
-        strpcy(nome,wordToLower(nome));strpcy(princ_ativo,wordToLower(princ_ativo));
-        strpcy(tipo,wordToLower(tipo));strpcy(ref,wordToLower(ref));
-        strpcy(lab,wordToLower(lab));strpcy(codigo,wordToLower(codigo));
+        strcpy(nome,wordToLower(nome));strcpy(princ_ativo,wordToLower(princ_ativo));
+        strcpy(tipo,wordToLower(tipo));strcpy(ref,wordToLower(ref));
+        strcpy(lab,wordToLower(lab));strcpy(codigo,wordToLower(codigo));
 
         insertFromText(&head, nome, princ_ativo, tipo,ref, lab, codigo);
     }
@@ -153,27 +153,27 @@ void insertNode(struct node **head){
     if (novo!= NULL){
         printf("Nome: ");
         scanf(" %[^\n]", &novo->nome);
-        strpcy(novo->nome,wordToLower(novo->nome));
+        strcpy(novo->nome,wordToLower(novo->nome));
 
         printf("Principio ativo: ");
         scanf(" %[^\n]", &novo->princ_ativo);
-        strpcy(novo->princ_ativo,wordToLower(novo->princ_ativo));
+        strcpy(novo->princ_ativo,wordToLower(novo->princ_ativo));
 
         printf("Tipo: ");
         scanf(" %[^\n]", &novo->tipo);
-        strpcy(novo->tipo,wordToLower(novo->tipo));
+        strcpy(novo->tipo,wordToLower(novo->tipo));
 
         printf("Referencia: ");
         scanf(" %[^\n]", &novo->ref);
-        strpcy(novo->ref,wordToLower(novo->ref));
+        strcpy(novo->ref,wordToLower(novo->ref));
 
         printf("Laboratorio: ");
         scanf(" %[^\n]", &novo->lab);
-        strpcy(novo->lab,wordToLower(novo->lab));
+        strcpy(novo->lab,wordToLower(novo->lab));
 
         printf("Codigo de barras: ");
         scanf(" %[^\n]", &novo->codigo);
-        strpcy(novo->codigo,wordToLower(novo->codigo));
+        strcpy(novo->codigo,wordToLower(novo->codigo));
 
     }
     if((*head)==NULL){  //ta vazia
