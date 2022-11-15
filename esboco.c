@@ -227,18 +227,12 @@ void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de 
         struct node *referencia;
         struct node *generico;
         struct node *similar;
-        while (head != NULL){
-            if (strcmp(head->princ_ativo, nome) == 0){ //se de mesmo principio ativo, é printado
-                referencia = head;
-                generico = head;
-                similar = head;
-                break;
+        referencia = head;
+        generico = head;
+        similar = head;
 
-            }
-            head = head->next;
-        }
         while(referencia != NULL){
-            if(strcmp(referencia->tipo, "referencia")==0 && strcmp(referencia->princ_ativo, nome) == 0 ){
+            if(strcmp(referencia->tipo, "referencia")==0 && strcmp(referencia->princ_ativo, nome) == 0){
                 printf("Nome: %s\n"
                 "Tipo: %s\n"
                 "Laboratorio: %s\n"
@@ -276,6 +270,7 @@ void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de 
                 ,similar->lab
                 ,similar->codigo
                 );
+
             }
             similar = similar->next;
         }
