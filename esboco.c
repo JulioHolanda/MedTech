@@ -1,7 +1,7 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 //aqui vai o remédio
 struct node{
@@ -14,6 +14,7 @@ struct node{
     struct node *next;
 };
 
+char* wordToLower(char string[]);
 void insertNode(struct node **head);
 void insertFromText(struct node **head, char nome[], char princ[], char tipo[], char ref[], char lab[], char cod[]);
 void printando(struct node *head);
@@ -28,12 +29,18 @@ int main(){
     char ref[100],lab[50],codigo[10];
 
     struct node *head = NULL;
+    struct node *novo = NULL;
 
     bdd = fopen("bdd.txt", "r");
 
     for(int i=0; i<20; i++){
 
         fscanf(bdd, " %s %s %s %s %s %s", nome, princ_ativo, tipo, ref, lab, codigo);
+
+        strpcy(nome,wordToLower(nome));strpcy(princ_ativo,wordToLower(princ_ativo));
+        strpcy(tipo,wordToLower(tipo));strpcy(ref,wordToLower(ref));
+        strpcy(lab,wordToLower(lab));strpcy(codigo,wordToLower(codigo));
+
         insertFromText(&head, nome, princ_ativo, tipo,ref, lab, codigo);
     }
 
@@ -57,6 +64,7 @@ int main(){
 
             printf("Por qual medicamento deseja porcurar?\n");
             scanf(" %[^\n]", &remedio);
+            strcpy(remedio,wordToLower(remedio));
             printf("\n");
             buscaElemento(&head, remedio, 0);
 
@@ -87,6 +95,15 @@ int main(){
 
     return 0;
 }
+
+char* wordToLower(char string[]){
+    for(int i = 0; string[i]; i++){
+        string[i] = tolower(string[i]);
+    }
+    return string;
+}
+
+
 
 void insertFromText(struct node **head, char nome[], char princ[], char tipo[], char ref[], char lab[], char cod[]){
 
@@ -136,16 +153,27 @@ void insertNode(struct node **head){
     if (novo!= NULL){
         printf("Nome: ");
         scanf(" %[^\n]", &novo->nome);
+        strpcy(novo->nome,wordToLower(novo->nome));
+
         printf("Principio ativo: ");
         scanf(" %[^\n]", &novo->princ_ativo);
+        strpcy(novo->princ_ativo,wordToLower(novo->princ_ativo));
+
         printf("Tipo: ");
         scanf(" %[^\n]", &novo->tipo);
+        strpcy(novo->tipo,wordToLower(novo->tipo));
+
         printf("Referencia: ");
         scanf(" %[^\n]", &novo->ref);
+        strpcy(novo->ref,wordToLower(novo->ref));
+
         printf("Laboratorio: ");
         scanf(" %[^\n]", &novo->lab);
+        strpcy(novo->lab,wordToLower(novo->lab));
+
         printf("Codigo de barras: ");
         scanf(" %[^\n]", &novo->codigo);
+        strpcy(novo->codigo,wordToLower(novo->codigo));
 
     }
     if((*head)==NULL){  //ta vazia
