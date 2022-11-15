@@ -20,7 +20,7 @@ void insertFromText(struct node **head, char nome[], char princ[], char tipo[], 
 void printando(struct node *head);
 void removeNode(struct node **head, char nome[], char lab[]);
 void buscaElemento(struct node **head, char nome[], int filtro);
-void printSemelhantes(struct node *head, char nome[], int filtro);
+void printSemelhantes(struct node **head, char nome[], int filtro);
 
 int main(){
     FILE *bdd;
@@ -209,7 +209,7 @@ void buscaElemento(struct node **head, char nome[], int filtro){
         while (aux != NULL) {
             if (strcmp(aux->nome, nome) == 0){  //se remedio encontrado na lista
                 strcpy(igual, aux->princ_ativo);
-                printSemelhantes(*head, igual, filtro);  //imprime remedios de mesmo princp ativo
+                printSemelhantes(head, igual, filtro);  //imprime remedios de mesmo princp ativo
                 break;
             }
         aux = aux->next;
@@ -218,25 +218,66 @@ void buscaElemento(struct node **head, char nome[], int filtro){
   return NULL;
 }
 
-void printSemelhantes(struct node *head, char nome[], int filtro){ //print de remedios semelhantes
+void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de remedios semelhantes
     char *opcoesFiltro[] = {" ","referencia","generico","similar"};
+    struct node *head;
+    head = *lista;
 
     if(filtro == 0 ){
+        struct node *referencia;
+        struct node *generico;
+        struct node *similar;
         while (head != NULL){
             if (strcmp(head->princ_ativo, nome) == 0){ //se de mesmo principio ativo, é printado
+                referencia = head;
+                generico = head;
+                similar = head;
+                break;
 
+            }
+            head = head->next;
+        }
+        while(referencia != NULL){
+            if(strcmp(referencia->tipo, "referencia")==0 && strcmp(referencia->princ_ativo, nome) == 0 ){
                 printf("Nome: %s\n"
                 "Tipo: %s\n"
                 "Laboratorio: %s\n"
                 "Codigo: %s\n\n"
-                ,head->nome
-                ,head->tipo
-                ,head->lab
-                ,head->codigo
+                ,referencia->nome
+                ,referencia->tipo
+                ,referencia->lab
+                ,referencia->codigo
                 );
-
             }
-            head = head->next;
+            referencia = referencia->next;
+        }
+        while(generico != NULL){
+            if(strcmp(generico->tipo, "generico")==0 && strcmp(generico->princ_ativo, nome) == 0 ){
+                printf("Nome: %s\n"
+                "Tipo: %s\n"
+                "Laboratorio: %s\n"
+                "Codigo: %s\n\n"
+                ,generico->nome
+                ,generico->tipo
+                ,generico->lab
+                ,generico->codigo
+                );
+            }
+            generico = generico->next;
+        }
+        while(similar != NULL){
+            if(strcmp(similar->tipo, "similar")==0 && strcmp(similar->princ_ativo, nome) == 0){
+                printf("Nome: %s\n"
+                "Tipo: %s\n"
+                "Laboratorio: %s\n"
+                "Codigo: %s\n\n"
+                ,similar->nome
+                ,similar->tipo
+                ,similar->lab
+                ,similar->codigo
+                );
+            }
+            similar = similar->next;
         }
     }else{
         while (head != NULL){
