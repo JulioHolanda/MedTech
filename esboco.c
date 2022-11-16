@@ -29,7 +29,7 @@ int main(){
     char ref[100],lab[50],codigo[10];
 
     struct node *head = NULL;
-    struct node *novo = NULL;
+
 
     bdd = fopen("bdd.txt", "r");
 
@@ -46,12 +46,14 @@ int main(){
 
     fclose(bdd);
 
+    printf("\n --- Bem vindo(a) ao PIU --- \n\n");
+
     while(1){ //menu interativo
         printf(" --- Que acao voce deseja fazer: ---\n"
                "    1: adicionar remedio\n"
                "    2: consultar por medicamentos\n"
                "    3: consultar por medicamentos COM FILTRO\n"
-               "    0: sair:\n");
+               "    0: sair:\n ");
 
         scanf(" %d",  &opt);
         printf("\n");
@@ -62,7 +64,7 @@ int main(){
 
         }else if (opt == 2){  //consulta de remédios
 
-            printf("Por qual medicamento deseja porcurar?\n");
+            printf(" Por qual medicamento deseja porcurar?\n ");
             scanf(" %[^\n]", &remedio);
             strcpy(remedio,wordToLower(remedio));
             printf("\n");
@@ -70,21 +72,22 @@ int main(){
 
         }else if (opt == 3){  //consulta de remédios
             do{
-                printf("Escolha o tipo de filtro:\n"
-                       "1: referencia\n"
-                       "2: generico\n"
-                       "3: similar\n");
+                printf(" Escolha o tipo de filtro:\n"
+                       "    1: referencia\n"
+                       "    2: generico\n"
+                       "    3: similar\n ");
                 scanf(" %d", &filtro);
             }while(0 > filtro > 4);
 
-            printf("Por qual medicamento deseja porcurar?\n");
+            printf(" Por qual medicamento deseja porcurar?\n ");
+
             scanf(" %[^\n]", &remedio);
             printf("\n");
             buscaElemento(&head, remedio, filtro);
 
 
         }else if (opt ==0){   // sair do rograma
-
+            printf("\n -- FIM -- \n");
             break;
 
         }else { // qualquer outra entrada
@@ -92,6 +95,7 @@ int main(){
             printf(" \n --INSIRA UMA OPÇÃO VÁLIDA -- \n");
         }
     }
+    free(head);
 
     return 0;
 }
@@ -233,10 +237,10 @@ void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de 
 
         while(referencia != NULL){
             if(strcmp(referencia->tipo, "referencia")==0 && strcmp(referencia->princ_ativo, nome) == 0){
-                printf("Nome: %s\n"
-                "Tipo: %s\n"
-                "Laboratorio: %s\n"
-                "Codigo: %s\n\n"
+                printf(" -Nome: %s\n"
+                "  Tipo: %s\n"
+                "  Laboratorio: %s\n"
+                "  Codigo: %s\n\n"
                 ,referencia->nome
                 ,referencia->tipo
                 ,referencia->lab
@@ -247,10 +251,10 @@ void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de 
         }
         while(generico != NULL){
             if(strcmp(generico->tipo, "generico")==0 && strcmp(generico->princ_ativo, nome) == 0 ){
-                printf("Nome: %s\n"
-                "Tipo: %s\n"
-                "Laboratorio: %s\n"
-                "Codigo: %s\n\n"
+                printf(" -Nome: %s\n"
+                "  Tipo: %s\n"
+                "  Laboratorio: %s\n"
+                "  Codigo: %s\n\n"
                 ,generico->nome
                 ,generico->tipo
                 ,generico->lab
@@ -261,10 +265,10 @@ void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de 
         }
         while(similar != NULL){
             if(strcmp(similar->tipo, "similar")==0 && strcmp(similar->princ_ativo, nome) == 0){
-                printf("Nome: %s\n"
-                "Tipo: %s\n"
-                "Laboratorio: %s\n"
-                "Codigo: %s\n\n"
+                printf(" -Nome: %s\n"
+                "  Tipo: %s\n"
+                "  Laboratorio: %s\n"
+                "  Codigo: %s\n\n"
                 ,similar->nome
                 ,similar->tipo
                 ,similar->lab
@@ -278,10 +282,10 @@ void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de 
         while (head != NULL){
             if (strcmp(head->princ_ativo, nome) == 0 && strcmp(head->tipo, opcoesFiltro[filtro]) == 0 ){ //se de mesmo principio ativo E dentro do filtro, é printado
 
-                printf("Nome: %s\n"
-                "Tipo: %s\n"
-                "Laboratorio: %s\n"
-                "Codigo: %s\n\n"
+                printf(" -Nome: %s\n"
+                "  Tipo: %s\n"
+                "  Laboratorio: %s\n"
+                "  Codigo: %s\n\n"
                 ,head->nome
                 ,head->tipo
                 ,head->lab
