@@ -18,7 +18,6 @@ struct node{
 char* wordToLower(char string[]);
 void insertNode(struct node **head);
 void insertFromText(struct node **head, char nome[], char princ[], char tipo[], char ref[], char lab[], char cod[]);
-void printando(struct node *head);
 void removeNode(struct node **head, char nome[], char lab[]);
 void buscaElemento(struct node **head, char nome[], int filtro);
 void printSemelhantes(struct node **head, char nome[], int filtro);

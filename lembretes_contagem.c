@@ -4,27 +4,27 @@
 #include <time.h>
 
 int main(void) {
-  
-  struct tm *data_hora_atual;  
-    
+
+  struct tm *data_hora_atual;
+
   time_t segundos;
-   
-  time(&segundos);   
+
+  time(&segundos);
   data_hora_atual = localtime(&segundos);
 
 
   int hor, min;
   float intervalo;
-  int ms=1;
+  int ms=30;//30 é o valor equivalente a 1 minuto. Para fins de teste mais rápido, este valor pode ser alterado para 1, fazendo o loop rodar de 1 em 1 segundo.
   int quant_remedio, dose_remedio;
   int pastTime=0, tomados=0, intervaloINT;
 
   printf("\n\nVamos marcar o intervalo de tempo que será preciso no tratamento!");
-  
+
   printf("\n\nDe quantas em quantas horas precisará tomar o remédio? ");
   printf("\nDigite aqui:");
   scanf("%f", &intervalo);
-  
+
   printf("\n\nDigite a quantidade(total) de remédios(comprimidos, copinhos) que precisará tomar:");
   scanf("%d", &quant_remedio);
   printf("\n\nDigite a dose de remédios que terá de tomar a cada chamada:");
@@ -35,8 +35,6 @@ int main(void) {
   intervaloINT = (int)intervalo;
 
   printf(" %d", intervaloINT);
-
-  // transformando hora e minuto em variáveis
 
   hor=data_hora_atual->tm_hour;
   min=data_hora_atual->tm_min;
@@ -53,11 +51,12 @@ int main(void) {
       min = ((min % 60));
     }
   }
-  
+
   while(1){
 
-    min+=10;
-    pastTime += 10;
+    min+=1;//Para fins de teste, este valor do min+=1 poderá ser mudado.  A equipe recomenda que o valor seja alterado para: 10, 20 ou 30.
+
+    pastTime += 1;//Para fins de teste, este valor do pastTime+=1 poderá ser mudado. O valor de "pastTime" deverá ser o mesmo de "min".
     if (min >= 60){
         min = min - 60;
         hor++;
