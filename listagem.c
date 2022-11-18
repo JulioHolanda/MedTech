@@ -22,9 +22,11 @@ void printando(struct node *head);
 void removeNode(struct node **head, char nome[], char lab[]);
 void buscaElemento(struct node **head, char nome[], int filtro);
 void printSemelhantes(struct node **head, char nome[], int filtro);
+void removeNode(struct node **head, char nome[], char lab[]);
 
 //PARA TESTES
-/*void printando(struct node *head){
+/*
+void printando(struct node *head){
  int i =2;
     if (head == NULL){
         printf("lista vazia");
@@ -51,7 +53,8 @@ void printSemelhantes(struct node **head, char nome[], int filtro);
         }
         printf("\n");
     }
-}*/
+}
+*/
 
 int main(){
     FILE *bdd;
@@ -80,15 +83,16 @@ int main(){
     //PARA TESTES
     //printando(head);
     #if ADMIN == 1
-        printf("\n --- VERSAO ADMIN --- \n\n");
+        printf("\n --- VERSAO ADMIN --- \n");
 
         printf("\n --- Bem vindo(a) ao PIU --- \n\n");
 
         while(1){ //menu interativo
             printf(" --- Que acao voce deseja fazer: ---\n"
                    "    1: adicionar remedio\n"
-                   "    2: consultar por medicamentos\n"
-                   "    3: consultar por medicamentos COM FILTRO\n"
+                   "    2: deletar remedio\n"
+                   "    3: consultar por medicamentos\n"
+                   "    4: consultar por medicamentos COM FILTRO\n"
                    "    0: sair:\n ");
 
             scanf(" %d",  &opt);
@@ -96,9 +100,24 @@ int main(){
 
             if ( opt == 1){ //adicionar remédio
 
+                printf(" -- ADICIONAR --\n");
                 insertNode(&head);
 
-            }else if (opt == 2){  //consulta de remédios
+            }else if (opt == 2){ //deletar remédio
+
+                printf(" -- DELETAR --\n");
+                printf(" Nome: ");
+                scanf(" %[^\n]", &remedio);
+                printf(" Laboratorio: ");
+                scanf(" %[^\n]", &lab);
+
+                removeNode(&head, remedio, lab);
+
+                    //PARA TESTES
+                //printando(head);
+
+
+            }else if (opt == 3){  //consulta de remédios
 
                 printf(" Por qual medicamento deseja porcurar?\n ");
                 scanf(" %[^\n]", &remedio);
@@ -106,7 +125,7 @@ int main(){
                 printf("\n");
                 buscaElemento(&head, remedio, 0);
 
-            }else if (opt == 3){  //consulta de remédios filtrado
+            }else if (opt == 4){  //consulta de remédios filtrado
                 do{
                     printf(" Escolha o tipo de filtro:\n"
                            "    1: referencia\n"
@@ -364,24 +383,29 @@ void insertNode(struct node **head){
 void buscaElemento(struct node **head, char nome[], int filtro){
     struct node *aux = *head;
     char igual[100];
+    int encontrado = 0;
 
     if (*head != NULL) {
         while (aux != NULL) {
             if (strcmp(aux->nome, nome) == 0){  //se remedio encontrado na lista
                 strcpy(igual, aux->princ_ativo);
                 printSemelhantes(head, igual, filtro);  //imprime remedios de mesmo princp ativo
+                encontrado = 1;
                 break;
             }
         aux = aux->next;
         }
     }
+    if (encontrado == 0){
+        printf("  - medicamento NAO encontrado - \n\n");
+    }
   return NULL;
 }
 
-void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de remedios semelhantes
+void printSemelhantes(struct node **head, char nome[], int filtro){ //print de remedios semelhantes
     char *opcoesFiltro[] = {" ","referencia","generico","similar"};
     struct node *aux;
-    aux = *lista;
+    aux = *head;
 
     if(filtro == 0 ){
         struct node *referencia;
@@ -464,28 +488,37 @@ void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de 
 }
 
 
-//não está sendo usada no momento
-/*
 void removeNode(struct node **head, char nome[], char lab[]){
 
     struct node *aux = *head;
+    struct node *temp;
+    int deletado = 0;
 
-    if(strcmp(aux->nome, nome) == 0 && strcmp(aux->lab, lab)==0){
-        *head = aux->next;
-        free(aux);
-    }
+    if (strcmp((*head)->nome, nome) == 0 && strcmp((*head)->lab, lab)==0){
+        temp = (*head);
+        (*head) = (*head)->next;
 
-    if (aux != NULL) {
-        while (aux != NULL) {
-            if (strcmp(aux->next->nome, nome) == 0 && strcmp(aux->lab, lab)==0)
-            {
+        deletado = 1;
+        printf("  - medicamento DELETADO com sucesso - \n\n");
 
+
+    }else if (aux != NULL) {
+        while (aux->next != NULL) {
+            if (strcmp(aux->next->nome, nome) == 0 && strcmp(aux->next->lab, lab)==0){
+                temp = aux->next;
+                aux->next = aux->next->next;
+
+                deletado = 1;
+                printf("  - medicamento DELETADO com sucesso - \n\n");
+
+                break;
             }
 
-        aux = aux->next;
+            aux = aux->next;
         }
     }
-  return NULL;
+    if (deletado == 0){
+        printf("  - medicamento ou semelhantes NAO encontrados - \n\n");
+    }
+    free(temp);
 }
-*/
-
