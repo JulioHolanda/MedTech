@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#define ADMIN 0
 
 //aqui vai o remédio
 struct node{
@@ -78,56 +79,105 @@ int main(){
 
     //PARA TESTES
     //printando(head);
+    #if ADMIN == 1
+        printf("\n --- VERSAO ADMIN --- \n\n");
 
-    printf("\n --- Bem vindo(a) ao PIU --- \n\n");
+        printf("\n --- Bem vindo(a) ao PIU --- \n\n");
 
-    while(1){ //menu interativo
-        printf(" --- Que acao voce deseja fazer: ---\n"
-               "    1: adicionar remedio\n"
-               "    2: consultar por medicamentos\n"
-               "    3: consultar por medicamentos COM FILTRO\n"
-               "    0: sair:\n ");
+        while(1){ //menu interativo
+            printf(" --- Que acao voce deseja fazer: ---\n"
+                   "    1: adicionar remedio\n"
+                   "    2: consultar por medicamentos\n"
+                   "    3: consultar por medicamentos COM FILTRO\n"
+                   "    0: sair:\n ");
 
-        scanf(" %d",  &opt);
-        printf("\n");
-
-        if ( opt == 1){ //adicionar remédio
-
-            insertNode(&head);
-
-        }else if (opt == 2){  //consulta de remédios
-
-            printf(" Por qual medicamento deseja porcurar?\n ");
-            scanf(" %[^\n]", &remedio);
-            strcpy(remedio,wordToLower(remedio));
+            scanf(" %d",  &opt);
             printf("\n");
-            buscaElemento(&head, remedio, 0);
 
-        }else if (opt == 3){  //consulta de remédios
-            do{
-                printf(" Escolha o tipo de filtro:\n"
-                       "    1: referencia\n"
-                       "    2: generico\n"
-                       "    3: similar\n ");
-                scanf(" %d", &filtro);
-            }while(0 > filtro > 4);
+            if ( opt == 1){ //adicionar remédio
 
-            printf(" Por qual medicamento deseja porcurar?\n ");
+                insertNode(&head);
 
-            scanf(" %[^\n]", &remedio);
-            printf("\n");
-            buscaElemento(&head, remedio, filtro);
+            }else if (opt == 2){  //consulta de remédios
+
+                printf(" Por qual medicamento deseja porcurar?\n ");
+                scanf(" %[^\n]", &remedio);
+                strcpy(remedio,wordToLower(remedio));
+                printf("\n");
+                buscaElemento(&head, remedio, 0);
+
+            }else if (opt == 3){  //consulta de remédios filtrado
+                do{
+                    printf(" Escolha o tipo de filtro:\n"
+                           "    1: referencia\n"
+                           "    2: generico\n"
+                           "    3: similar\n ");
+                    scanf(" %d", &filtro);
+                }while(0 > filtro > 4);
+
+                printf(" Por qual medicamento deseja porcurar?\n ");
+
+                scanf(" %[^\n]", &remedio);
+                printf("\n");
+                buscaElemento(&head, remedio, filtro);
 
 
-        }else if (opt ==0){   // sair do rograma
-            printf("\n -- FIM -- \n");
-            break;
+            }else if (opt ==0){   // sair do rograma
+                printf("\n -- FIM -- \n");
+                break;
 
-        }else { // qualquer outra entrada
+            }else { // qualquer outra entrada
 
-            printf(" \n --INSIRA UMA OPÇÃO VÁLIDA -- \n");
+                printf(" \n --INSIRA UMA OPÇÃO VÁLIDA -- \n");
+            }
         }
-    }
+    #else
+        printf("\n --- Bem vindo(a) ao PIU --- \n\n");
+
+        while(1){ //menu interativo
+            printf(" --- Que acao voce deseja fazer: ---\n"
+                   "    1: consultar por medicamentos\n"
+                   "    2: consultar por medicamentos COM FILTRO\n"
+                   "    0: sair:\n ");
+
+            scanf(" %d",  &opt);
+            printf("\n");
+
+            if (opt == 1){  //consulta de remédios
+
+                printf(" Por qual medicamento deseja porcurar?\n ");
+                scanf(" %[^\n]", &remedio);
+                strcpy(remedio,wordToLower(remedio));
+                printf("\n");
+                buscaElemento(&head, remedio, 0);
+
+            }else if (opt == 2){  //consulta de remédios filrado
+                do{
+                    printf(" Escolha o tipo de filtro:\n"
+                           "    1: referencia\n"
+                           "    2: generico\n"
+                           "    3: similar\n ");
+                    scanf(" %d", &filtro);
+                }while(0 > filtro > 4);
+
+                printf(" Por qual medicamento deseja porcurar?\n ");
+
+                scanf(" %[^\n]", &remedio);
+                printf("\n");
+                buscaElemento(&head, remedio, filtro);
+
+
+            }else if (opt ==0){   // sair do rograma
+                printf("\n -- FIM -- \n");
+                break;
+
+            }else { // qualquer outra entrada
+
+                printf(" \n --INSIRA UMA OPÇÃO VÁLIDA -- \n");
+            }
+        }
+    #endif // ADMIN
+
     free(head);
 
     return 0;
