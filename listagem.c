@@ -304,23 +304,59 @@ void insertNode(struct node **head){
         (*head)=novo;
         (*head)->next = NULL;
 
-    }else if(strcmp(novo->nome,(*head)->nome)<0){ //antes do head
-        novo->next = *head;
-        *head= novo;
-    }else if(strcmp(novo->nome,(*head)->nome)==0){ //semelhante ao head
-        novo->next = (*head)->next;
-        (*head)->next = novo;
+    }else if(strcmp(novo->princ_ativo,(*head)->princ_ativo)<0){ //antes do head
+            novo->next = *head;
+            *head= novo;
 
-    }else{
-        aux = *head;
+    }else if(strcmp(novo->princ_ativo,(*head)->princ_ativo)==0){ //semelhante ao head
 
-        while(1){ //navegando enquanto lista nao acaba ou fora de posiçao (alfabética)
-            if(aux->next == NULL ||strcmp(novo->nome,aux->next->nome)<=0){
+        if(strcmp(novo->nome,(*head)->nome)<0){ // e antes do head
+            novo->next = *head;
+            *head= novo;
+
+        }else if(strcmp(novo->nome,(*head)->nome)==0){ //semelhante ao head
+            novo->next = (*head)->next;
+            (*head)->next = novo;
+        }else{
+            while(aux->next != NULL && strcmp(novo->nome,aux->next->nome)>0 && strcmp(novo->princ_ativo,aux->next->princ_ativo)==0){
+                aux=aux->next;
+            }
+
+            if(aux->next == NULL){
+                novo->next = NULL;
+                aux->next = novo;
+
+            }else{
                 novo->next = aux->next;
                 aux->next = novo;
-                break;
             }
+        }
+
+    }else{
+        while(aux->next != NULL && strcmp(novo->princ_ativo,aux->next->princ_ativo)>0){ //navegando enquanto lista nao acaba ou fora de posiçao (alfabética -> principios ativos)
             aux=aux->next;
+        }
+
+        if(aux->next == NULL){
+            novo->next = NULL;
+            aux->next = novo;
+
+        }else if(strcmp(novo->princ_ativo,aux->next->princ_ativo)==0){
+                while (aux->next != NULL && strcmp(novo->nome,aux->next->nome)>0 && strcmp(novo->princ_ativo,aux->next->princ_ativo)==0){  //navegando enquanto lista nao acaba ou fora de posiçao (alfabética -> nome, dentro do mesmo principio ativo)
+                    aux=aux->next;
+                }
+
+                if(aux->next == NULL){
+                    novo->next = NULL;
+                    aux->next = novo;
+
+                }else{
+                    novo->next = aux->next;
+                    aux->next = novo;
+                }
+        }else{
+            novo->next = aux->next;
+            aux->next = novo;
         }
     }
 }
