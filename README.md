@@ -3,11 +3,13 @@
 </h1>
 
 ## 💻 Sobre o projeto
-bla bla bla
+
+Uma aplicação mobile para orientação de medicamentos e similares direcionada aos pacientes
 
 ## 🎨 Layout
 
 O layout da aplicação está disponível no Figma:
+https://www.figma.com/proto/LsVAiPmgzBqr9vAW1QiUUx/prototips?node-id=171%3A15&scaling=scale-down&page-id=70%3A14&starting-point-node-id=171%3A15
 
 ## 🗂 Como baixar o projeto
 
@@ -21,7 +23,9 @@ O layout da aplicação está disponível no Figma:
 
 ```
 ## ✨ Funcionalidades
-blablabla
+
+- listagem.c + bdd.txt : listagem e busca por medicamentos e seus semelhantes
+- lembrete_contagem.c: ilustrar a função de criar alarmes/lembretes de medicamentos do usuário
 
 ## 😯 Como contribuir para o projeto
 
@@ -32,8 +36,12 @@ blablabla
 > Caso tenha alguma dúvida confira este [guia de como contribuir no GitHub](https://github.com/firstcontributions/first-contributions)
 
 ## 🚀 Equipe
-fulanin
 
+* Antônio Cabral - apbc@cesar.school
+* Eduardo Melo - emcm@cesar.school
+* Júlio de Holanda Cavalcanti - jphc@cesar.school
+* Nicole Victory - nvms@cesar.school
+* Vinícius Paz - vgp@cesar.school
 
 ## 📝 Licença
 
