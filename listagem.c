@@ -301,13 +301,18 @@ void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de 
         struct node *referencia;
         struct node *generico;
         struct node *similar;
+
+        while(aux != NULL && strcmp(aux->princ_ativo, nome) != 0){
+            aux = aux->next;
+        }
+
+        //grupo encontrado
         referencia = aux;
         generico = aux;
         similar = aux;
 
-        while()
-        while(referencia != NULL){
-            if(strcmp(referencia->tipo, "referencia")==0 && strcmp(referencia->princ_ativo, nome) == 0){
+        while(referencia != NULL && strcmp(referencia->princ_ativo, nome) == 0){
+            if(strcmp(referencia->tipo, "referencia")==0){
                 printf(" -Nome: %s\n"
                 "  Tipo: %s\n"
                 "  Laboratorio: %s\n"
@@ -320,8 +325,8 @@ void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de 
             }
             referencia = referencia->next;
         }
-        while(generico != NULL){
-            if(strcmp(generico->tipo, "generico")==0 && strcmp(generico->princ_ativo, nome) == 0 ){
+        while(generico != NULL  && strcmp(generico->princ_ativo, nome) == 0 ){
+            if(strcmp(generico->tipo, "generico")==0){
                 printf(" -Nome: %s\n"
                 "  Tipo: %s\n"
                 "  Laboratorio: %s\n"
@@ -334,8 +339,8 @@ void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de 
             }
             generico = generico->next;
         }
-        while(similar != NULL){
-            if(strcmp(similar->tipo, "similar")==0 && strcmp(similar->princ_ativo, nome) == 0){
+        while(similar != NULL && strcmp(similar->princ_ativo, nome) == 0){
+            if(strcmp(similar->tipo, "similar")==0 ){
                 printf(" -Nome: %s\n"
                 "  Tipo: %s\n"
                 "  Laboratorio: %s\n"
@@ -350,8 +355,12 @@ void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de 
             similar = similar->next;
         }
     }else{
-        while (aux != NULL){
-            if (strcmp(aux->princ_ativo, nome) == 0 && strcmp(aux->tipo, opcoesFiltro[filtro]) == 0 ){ //se de mesmo principio ativo E dentro do filtro, é printado
+        while(aux != NULL && strcmp(aux->princ_ativo, nome) != 0){
+            aux = aux->next;
+        }
+
+        while (aux != NULL && strcmp(aux->princ_ativo, nome) == 0){
+            if ( strcmp(aux->tipo, opcoesFiltro[filtro]) == 0 ){ //se de mesmo principio ativo E dentro do filtro, é printado
 
                 printf(" -Nome: %s\n"
                 "  Tipo: %s\n"
