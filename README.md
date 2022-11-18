@@ -3,6 +3,7 @@
 </h1>
 
 ## 💻 Sobre o projeto
+bla bla bla
 
 ## 🎨 Layout
 
@@ -20,6 +21,7 @@ O layout da aplicação está disponível no Figma:
 
 ```
 ## ✨ Funcionalidades
+blablabla
 
 ## 😯 Como contribuir para o projeto
 
@@ -30,6 +32,7 @@ O layout da aplicação está disponível no Figma:
 > Caso tenha alguma dúvida confira este [guia de como contribuir no GitHub](https://github.com/firstcontributions/first-contributions)
 
 ## 🚀 Equipe
+fulanin
 
 
 ## 📝 Licença
