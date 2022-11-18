@@ -22,6 +22,36 @@ void removeNode(struct node **head, char nome[], char lab[]);
 void buscaElemento(struct node **head, char nome[], int filtro);
 void printSemelhantes(struct node **head, char nome[], int filtro);
 
+//PARA TESTES
+/*void printando(struct node *head){
+ int i =2;
+    if (head == NULL){
+        printf("lista vazia");
+    }else{
+        printf(" -Nome: %s\n"
+                "  princp: %s\n"
+                "  Tipo: %s\n\n"
+                ,head->nome
+                ,head->princ_ativo
+                ,head->tipo
+                );
+        head = head->next;
+        while (head != NULL){
+            printf(" - %d Nome: %s\n"
+                "  princp: %s\n"
+                "  Tipo: %s\n\n"
+                ,i
+                ,head->nome
+                ,head->princ_ativo
+                ,head->tipo
+                );
+            head = head->next;
+            i++;
+        }
+        printf("\n");
+    }
+}*/
+
 int main(){
     FILE *bdd;
     int opt, filtro;
@@ -45,6 +75,9 @@ int main(){
     }
 
     fclose(bdd);
+
+    //PARA TESTES
+    //printando(head);
 
     printf("\n --- Bem vindo(a) ao PIU --- \n\n");
 
@@ -113,6 +146,7 @@ void insertFromText(struct node **head, char nome[], char princ[], char tipo[], 
 
     struct node *novo = (struct node*)malloc(sizeof(struct node));
     struct node *aux;
+    aux = *head;
 
     //caso espaço criado, preenche dados do node
     if (novo!= NULL){
@@ -128,23 +162,59 @@ void insertFromText(struct node **head, char nome[], char princ[], char tipo[], 
         (*head)=novo;
         (*head)->next = NULL;
 
-    }else if(strcmp(novo->nome,(*head)->nome)<0){ //antes do head
-        novo->next = *head;
-        *head= novo;
-    }else if(strcmp(novo->nome,(*head)->nome)==0){ //semelhante ao head
-        novo->next = (*head)->next;
-        (*head)->next = novo;
+    }else if(strcmp(novo->princ_ativo,(*head)->princ_ativo)<0){ //antes do head
+            novo->next = *head;
+            *head= novo;
 
-    }else{
-        aux = *head;
+    }else if(strcmp(novo->princ_ativo,(*head)->princ_ativo)==0){ //semelhante ao head
 
-        while(1){ //navegando enquanto lista nao acaba ou fora de posiçao (alfabética)
-            if(aux->next == NULL ||strcmp(novo->nome,aux->next->nome)<=0){
+        if(strcmp(novo->nome,(*head)->nome)<0){ // e antes do head
+            novo->next = *head;
+            *head= novo;
+
+        }else if(strcmp(novo->nome,(*head)->nome)==0){ //semelhante ao head
+            novo->next = (*head)->next;
+            (*head)->next = novo;
+        }else{
+            while(aux->next != NULL && strcmp(novo->nome,aux->next->nome)>0 && strcmp(novo->princ_ativo,aux->next->princ_ativo)==0){
+                aux=aux->next;
+            }
+
+            if(aux->next == NULL){
+                novo->next = NULL;
+                aux->next = novo;
+
+            }else{
                 novo->next = aux->next;
                 aux->next = novo;
-                break;
             }
+        }
+
+    }else{
+        while(aux->next != NULL && strcmp(novo->princ_ativo,aux->next->princ_ativo)>0){ //navegando enquanto lista nao acaba ou fora de posiçao (alfabética -> principios ativos)
             aux=aux->next;
+        }
+
+        if(aux->next == NULL){
+            novo->next = NULL;
+            aux->next = novo;
+
+        }else if(strcmp(novo->princ_ativo,aux->next->princ_ativo)==0){
+                while (aux->next != NULL && strcmp(novo->nome,aux->next->nome)>0 && strcmp(novo->princ_ativo,aux->next->princ_ativo)==0){  //navegando enquanto lista nao acaba ou fora de posiçao (alfabética -> nome, dentro do mesmo principio ativo)
+                    aux=aux->next;
+                }
+
+                if(aux->next == NULL){
+                    novo->next = NULL;
+                    aux->next = novo;
+
+                }else{
+                    novo->next = aux->next;
+                    aux->next = novo;
+                }
+        }else{
+            novo->next = aux->next;
+            aux->next = novo;
         }
     }
 }
@@ -224,17 +294,18 @@ void buscaElemento(struct node **head, char nome[], int filtro){
 
 void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de remedios semelhantes
     char *opcoesFiltro[] = {" ","referencia","generico","similar"};
-    struct node *head;
-    head = *lista;
+    struct node *aux;
+    aux = *lista;
 
     if(filtro == 0 ){
         struct node *referencia;
         struct node *generico;
         struct node *similar;
-        referencia = head;
-        generico = head;
-        similar = head;
+        referencia = aux;
+        generico = aux;
+        similar = aux;
 
+        while()
         while(referencia != NULL){
             if(strcmp(referencia->tipo, "referencia")==0 && strcmp(referencia->princ_ativo, nome) == 0){
                 printf(" -Nome: %s\n"
@@ -279,21 +350,21 @@ void printSemelhantes(struct node **lista, char nome[], int filtro){ //print de 
             similar = similar->next;
         }
     }else{
-        while (head != NULL){
-            if (strcmp(head->princ_ativo, nome) == 0 && strcmp(head->tipo, opcoesFiltro[filtro]) == 0 ){ //se de mesmo principio ativo E dentro do filtro, é printado
+        while (aux != NULL){
+            if (strcmp(aux->princ_ativo, nome) == 0 && strcmp(aux->tipo, opcoesFiltro[filtro]) == 0 ){ //se de mesmo principio ativo E dentro do filtro, é printado
 
                 printf(" -Nome: %s\n"
                 "  Tipo: %s\n"
                 "  Laboratorio: %s\n"
                 "  Codigo: %s\n\n"
-                ,head->nome
-                ,head->tipo
-                ,head->lab
-                ,head->codigo
+                ,aux->nome
+                ,aux->tipo
+                ,aux->lab
+                ,aux->codigo
                 );
 
             }
-            head = head->next;
+            aux = aux->next;
         }}
 }
 
